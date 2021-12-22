@@ -4,48 +4,23 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
-    public float moveSpeed = 6f;
 
-    float rbDrag = 1f;
+    public float speed = .000000000000000000000000000000000000000000000000000000000000000000000000000000000001f;
 
-    float horizontalMovement;
-    float verticalMovement;
-
-    Vector3 moveDirection;
-    Rigidbody rb;
-
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
-        MyInput();
-        ControlDrag();
-    }
+        float xDirection = Input.GetAxis("Horizontal");
+        float zDirection = Input.GetAxis("Vertical");
 
-    void MyInput()
-    {
-        horizontalMovement = Input.GetAxisRaw("Horizontal");
-        verticalMovement = Input.GetAxisRaw("Vertical");
+        Vector3 moveDirection = new Vector3(zDirection, 0.0f, xDirection);
 
-        moveDirection = transform.forward * verticalMovement + transform.right * horizontalMovement;
-    }
-
-    void ControlDrag()
-    {
-        rb.drag = rbDrag;
-    }
-
-    private void FixedUpdate()
-    {
-        MovePlayer();
-    }
-
-    void MovePlayer()
-    {
-        rb.AddForce(moveDirection.normalized * moveSpeed, ForceMode.Acceleration);
+        transform.position += moveDirection * speed;
     }
 }
